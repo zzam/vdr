@@ -329,3 +329,16 @@ Oliver Lorei <oliverlorei@cityweb.de>
 
 Andreas Böttger <fboettger@t-online.de>
  for reporting a bug in skipping forward in time shift mode near the end of the recording
+
+Rudi Hofer (Rudi.Hofer@cadsoft.de)
+ for his help in keeping 'channels.conf' up to date
+
+Gregoire Favre <greg@ulima.unil.ch>
+ for fixing some function headers to make them compile with gcc 3.x
+
+Sven Grothklags <sven@uni-paderborn.de>
+ for fixing the cutting mechanism to make it re-sync in case a frame is larger
+ than the buffer
+
+Tomas Prybil <tomas.prybil@copper.se>
+ for translating OSD texts to the Swedish language

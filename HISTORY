@@ -1142,7 +1142,7 @@ Video Disk Recorder Revision History
 - New command command line option '-V' to display the VDR version.
 - Adjusting column width for channel numbers in case there are more than 999
   channels.
-- Checking the return value of '...FileRady...' calls in dvbapi.c for better
+- Checking the return value of '...FileReady...' calls in dvbapi.c for better
   performance under heavy system load.
 - New 'make' target 'install', which copies the manual pages and executables
   to their appropriate system locations and creates the /video directory if
@@ -1242,3 +1242,12 @@ Video Disk Recorder Revision History
   'channels.conf.cable' whenever a new version is sent to me.
 - Fixed skipping forward in time shift mode near the end of the recording (thanks
   to Andreas Böttger for reporting this one).
+
+2002-05-26: Version 1.0.3
+
+- Updated 'Premiere Sport 2' in channels.conf (thanks to Rudi Hofer).
+- Fixed some function headers to make them compile with gcc 3.x (thanks to
+  Gregoire Favre).
+- Fixed the cutting mechanism to make it re-sync in case a frame is larger than the
+  buffer (thanks to Sven Grothklags).
+- Added Swedish language texts (thanks to Tomas Prybil).
