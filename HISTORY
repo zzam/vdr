@@ -1218,3 +1218,27 @@ Video Disk Recorder Revision History
   AC3 sound only working the first time (thanks to Stefan Huelswitt).
 - Now encoding '.' at the end of a directory name in case of VFAT=1, since Windows
   can't handle these (thanks to Simon Dean for reporting this one).
+
+2002-05-05: Version 1.0.2
+
+- Now taking an active video cutting process into account when doing shutdown or
+  housekeeping (thanks to Stefan Huelswitt).
+- The default duration of an instant recording has been increased to 3 hours and
+  is now configurable in the "Setup/Recording" menu.
+- Added Greek language texts (thanks to Dimitrios Dimitrakos).
+- Fixed the unit of the "SVDRP timeout" setup parameter (thanks to Marcus Kuba
+  for reporting this one).
+- Fixed a crash on systems with disks that have a block size larger than 1MB
+  (thanks to Ulrich Petri for helping to debug this one).
+- Updated 'channels.conf' for the new PW settings (thanks to Andreas Share,
+  Carsten Koch, Gerald Raaf and Mel Schächner). Note that all channels with numbers
+  over 50 may have moved, so you should carefully check any timers you have set!
+- Updated 'channels.conf.cable' for the new PW settings (thanks to Oliver Lorei
+  Stephan Schreiber and Uwe Scheffler). Note that all channels may have moved, so
+  you should carefully check any timers you have set!
+  For future updates of this file somebody with digital cable should take the role
+  of the "maintainer" and send me updated versions based on the file that comes
+  with the most recent version of VDR. I will then simply replace the entire file
+  'channels.conf.cable' whenever a new version is sent to me.
+- Fixed skipping forward in time shift mode near the end of the recording (thanks
+  to Andreas Böttger for reporting this one).

@@ -12,6 +12,7 @@ Carsten Koch <Carsten.Koch@icem.de>
  for implementing the 'new recording' indicator
  for suggesting that the "Back" button in replay mode should bring up the "Recordings" menu
  for fixing the watchdog timer if the program hangs in OSD activities
+ for his support in keeping the Premiere World channels up to date in 'channels.conf'
 
 Plamen Ganev <pganev@com-it.net>
  for fixing the frequency offset for Hotbird channels
@@ -125,6 +126,8 @@ Stefan Huelswitt <huels@iname.com>
  for reporting a possible endless loop in shifting recordings between DVB cards
  for making it no longer setting PIDs 0x1FFF, which apparently fixes problems
  with CAMs and AC3 sound only working the first time
+ for making the main loop take an active video cutting process into account when
+ doing shutdown or housekeeping
 
 Ulrich Röder <roeder@efr-net.de>
  for pointing out that there are channels that have a symbol rate higher than
@@ -292,6 +295,7 @@ Dirk Wiebel <dirk@wiebel.de>
 Gerald Raaf <graaf@attglobal.net>
  for helping to fix the still picture workaround in case the progress display
  is active
+ for his support in keeping the Premiere World channels up to date in 'channels.conf'
 
 Andreas Roedl <flood@flood-net.de>
  for adding some DVB-T channels for Berlin (Germany) to channels.conf.terr
@@ -309,3 +313,19 @@ Matthias Hilbig <hilbig@upb.de>
 Simon Dean <linux-dvb@sickhack.com>
  for reporting a problem with '.' at the end of a directory name in case of VFAT=1
  (Windows can't handle these)
+
+Dimitrios Dimitrakos <mail@dimitrios.de>
+ for translating OSD texts to the Greek language
+
+Marcus Kuba <marcus@kuba4u.de>
+ for reporting a bug in the unit of the "SVDRP timeout" setup parameter
+
+Ulrich Petri <ulope@gmx.de>
+ for his help in debugging a crash on systems with disks that have a block size
+ larger than 1MB
+
+Oliver Lorei <oliverlorei@cityweb.de>
+ for his support in keeping the Premiere World channels up to date in 'channels.conf.cable'
+
+Andreas Böttger <fboettger@t-online.de>
+ for reporting a bug in skipping forward in time shift mode near the end of the recording

@@ -4,7 +4,7 @@
  * See the main source file 'vdr.c' for copyright information and
  * how to reach the author.
  *
- * $Id: menu.c 1.187 2002/04/20 09:17:08 kls Exp $
+ * $Id: menu.c 1.189 2002/05/01 14:54:10 kls Exp $
  */
 
 #include "menu.h"
@@ -21,6 +21,8 @@
 #define MENUTIMEOUT     120 // seconds
 #define MAXWAIT4EPGINFO  10 // seconds
 #define MODETIMEOUT       3 // seconds
+
+#define MAXINSTANTRECTIME (24 * 60 - 1) // 23:59 hours
 
 #define CHNUMWIDTH  (Channels.Count() > 999 ? 5 : 4) // there are people with more than 999 channels...
 
@@ -2202,6 +2204,7 @@ void cMenuSetupRecord::Set(void)
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Use episode name"),          &data.UseSubtitle));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Mark instant recording"),    &data.MarkInstantRecord));
   Add(new cMenuEditStrItem( tr("Setup.Recording$Name instant recording"),     data.NameInstantRecord, sizeof(data.NameInstantRecord), tr(FileNameChars)));
+  Add(new cMenuEditIntItem( tr("Setup.Recording$Instant rec. time (min)"),   &data.InstantRecordTime, 1, MAXINSTANTRECTIME));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Record Dolby Digital"),      &data.RecordDolbyDigital));
   Add(new cMenuEditIntItem( tr("Setup.Recording$Max. video file size (MB)"), &data.MaxVideoFileSize, MINVIDEOFILESIZE, MAXVIDEOFILESIZE));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Split edited files"),        &data.SplitEditedFiles));
@@ -2239,7 +2242,7 @@ void cMenuSetupMisc::Set(void)
   SetupTitle("Miscellaneous");
   Add(new cMenuEditIntItem( tr("Setup.Miscellaneous$Min. event timeout (min)"),   &data.MinEventTimeout));
   Add(new cMenuEditIntItem( tr("Setup.Miscellaneous$Min. user inactivity (min)"), &data.MinUserInactivity));
-  Add(new cMenuEditIntItem( tr("Setup.Miscellaneous$SVDRP timeout (min)"),        &data.SVDRPTimeout));
+  Add(new cMenuEditIntItem( tr("Setup.Miscellaneous$SVDRP timeout (s)"),          &data.SVDRPTimeout));
 }
 
 // --- cMenuSetup ------------------------------------------------------------

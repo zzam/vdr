@@ -4,7 +4,7 @@
  * See the main source file 'vdr.c' for copyright information and
  * how to reach the author.
  *
- * $Id: config.h 1.110 2002/04/21 10:09:56 kls Exp $
+ * $Id: config.h 1.112 2002/04/26 13:56:30 kls Exp $
  */
 
 #ifndef __CONFIG_H
@@ -19,7 +19,7 @@
 #include "eit.h"
 #include "tools.h"
 
-#define VDRVERSION "1.0.1"
+#define VDRVERSION "1.0.2"
 
 #define MAXPRIORITY 99
 #define MAXLIFETIME 99
@@ -337,6 +337,7 @@ public:
   int MenuScrollPage;
   int MarkInstantRecord;
   char NameInstantRecord[MaxFileName];
+  int InstantRecordTime;
   int LnbSLOF;
   int LnbFrequLo;
   int LnbFrequHi;
