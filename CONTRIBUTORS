@@ -342,3 +342,9 @@ Sven Grothklags <sven@uni-paderborn.de>
 
 Tomas Prybil <tomas.prybil@copper.se>
  for translating OSD texts to the Swedish language
+
+Paul Lacatus <paul@campina.iiruc.ro>
+ for translating OSD texts to the Romanian language
+
+Alastair McKinstry <mckinstry@computer.org>
+ for pointing out a problem with the '-m486' compiler option on non-Intel platforms
