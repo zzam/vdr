@@ -4,7 +4,7 @@
  * See the main source file 'vdr.c' for copyright information and
  * how to reach the author.
  *
- * $Id: i18n.c 1.79 2002/04/06 09:49:19 kls Exp $
+ * $Id: i18n.c 1.82 2002/04/20 09:40:37 kls Exp $
  *
  * Slovenian  translations provided by Miha Setina <mihasetina@softhome.net> and Matjaz Thaler <matjaz.thaler@guest.arnes.si>
  * Italian    translations provided by Alberto Carraro <bertocar@tin.it>
@@ -467,6 +467,42 @@ const tPhrase Phrases[] = {
     "Wyrzucenie",
     "Eyectar",
   },
+  { "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+    "ABC/abc",
+  },
+  { "Insert",
+    "Einfügen",
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+  },
+  { "Overwrite",
+    "Überschreiben",
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+  },
   // Confirmations:
   { "Delete channel?",
     "Kanal löschen?",
@@ -508,7 +544,7 @@ const tPhrase Phrases[] = {
     "Timer zeichnet auf - trotzdem löschen?",
     "Snemanje po terminu - zares odstrani?",
     "Timer in regestazione - cancello?",
-    "Timer neemt nog op - toch verwijderen?"
+    "Timer neemt nog op - toch verwijderen?",
     "Timer activo - têm a certeza que quer apagar?",
     "Enregistrement en cours - confirmez la suppression",
     "Timer gjør opptak - vil du slette likevel?",
@@ -1602,6 +1638,19 @@ const tPhrase Phrases[] = {
     "PonWtoSroCzwPiaSobNie",
     "LunMarMieJueVieSabDom",
   },
+  // The allowed characters in strings:
+  { " abcdefghijklmnopqrstuvwxyz0123456789-.#~",
+    " aäbcdefghijklmnoöpqrstuüvwxyz0123456789-.#~",
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    "",// TODO
+    " aábcdeéfghiíjklmnñoópqrstuúvwxyz0123456789-.#~",
+  },
   // Learning keys:
   { "Learning Remote Control Keys",
     "Fernbedienungs-Codes lernen",
@@ -2080,7 +2129,7 @@ const tPhrase Phrases[] = {
     "Eerste DVB-kaart wordt omgeschakeld...",
     "A mudar interface DVB primário...",
     "Changement de carte DVB primaire...",
-    "Bytter første DVB-enhet..."
+    "Bytter første DVB-enhet...",
     "Vaihdetaan ensisijainen vastaanotin...",
     "Pierwszy interfejs DVB przelacza...",
     "Cambio interface primario...",

@@ -4,10 +4,11 @@
  * See the main source file 'vdr.c' for copyright information and
  * how to reach the author.
  *
- * $Id: menu.c 1.182 2002/04/06 09:41:59 kls Exp $
+ * $Id: menu.c 1.187 2002/04/20 09:17:08 kls Exp $
  */
 
 #include "menu.h"
+#include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +24,7 @@
 
 #define CHNUMWIDTH  (Channels.Count() > 999 ? 5 : 4) // there are people with more than 999 channels...
 
-const char *FileNameChars = " aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789-.#~^";
+const char *FileNameChars = " abcdefghijklmnopqrstuvwxyz0123456789-.#~";
 
 // --- cMenuEditItem ---------------------------------------------------------
 
@@ -515,6 +516,8 @@ private:
   int length;
   const char *allowed;
   int pos;
+  bool insert, newchar, uppercase;
+  void SetHelpKeys(void);
   virtual void Set(void);
   char Inc(char c, bool Up);
 public:
@@ -530,6 +533,8 @@ cMenuEditStrItem::cMenuEditStrItem(const char *Name, char *Value, int Length, co
   length = Length;
   allowed = strdup(Allowed);
   pos = -1;
+  insert = uppercase = false;
+  newchar = true;
   Set();
 }
 
@@ -538,14 +543,54 @@ cMenuEditStrItem::~cMenuEditStrItem()
   delete allowed;
 }
 
+void cMenuEditStrItem::SetHelpKeys(void)
+{
+  if (pos >= 0)
+     Interface->Help(tr("ABC/abc"), tr(insert ? "Overwrite" : "Insert"), tr("Delete"));
+  else
+     Interface->Help(NULL);
+}
+
 void cMenuEditStrItem::Set(void)
 {
   char buf[1000];
+  const char *fmt = insert && newchar ? "[]%c%s" : "[%c]%s";
+
   if (pos >= 0) {
      strncpy(buf, value, pos);
-     const char *s = value[pos] != '^' ? value + pos + 1 : "";
-     snprintf(buf + pos, sizeof(buf) - pos - 2, "[%c]%s", *(value + pos), s);
-     SetValue(buf);
+     snprintf(buf + pos, sizeof(buf) - pos - 2, fmt, *(value + pos), value + pos + 1);
+     int width = Interface->Width() - Interface->GetCols()[0];
+     if (cDvbApi::PrimaryDvbApi->WidthInCells(buf) <= width) {
+        // the whole buffer fits on the screen
+        SetValue(buf);
+        return;
+        }
+     width *= cDvbApi::PrimaryDvbApi->CellWidth();
+     width -= cDvbApi::PrimaryDvbApi->Width('>'); // assuming '<' and '>' have the same with
+     int w = 0;
+     int i = 0;
+     int l = strlen(buf);
+     while (i < l && w <= width)
+           w += cDvbApi::PrimaryDvbApi->Width(buf[i++]);
+     if (i >= pos + 4) {
+        // the cursor fits on the screen
+        buf[i - 1] = '>';
+        buf[i] = 0;
+        SetValue(buf);
+        return;
+        }
+     // the cursor doesn't fit on the screen
+     w = 0;
+     if (buf[i = pos + 3]) {
+        buf[i] = '>';
+        buf[i + 1] = 0;
+        }
+     else
+        i--;
+     while (i >= 0 && w <= width)
+           w += cDvbApi::PrimaryDvbApi->Width(buf[i--]);
+     buf[++i] = '<';
+     SetValue(buf + i);
      }
   else
      SetValue(value);
@@ -568,34 +613,86 @@ char cMenuEditStrItem::Inc(char c, bool Up)
 eOSState cMenuEditStrItem::ProcessKey(eKeys Key)
 {
   switch (Key) {
-    case kLeft|k_Repeat:
-    case kLeft:  if (pos > 0) {
-                    if (value[pos] == '^')
-                       value[pos] = 0;
-                    pos--;
+    case kRed:   // Switch between upper- and lowercase characters
+                 if (pos >= 0 && (!insert || !newchar)) {
+                    uppercase = !uppercase;
+                    value[pos] = uppercase ? toupper(value[pos]) : tolower(value[pos]);
                     }
                  break;
+    case kGreen: // Toggle insert/overwrite modes
+                 if (pos >= 0) {
+                    insert = !insert;
+                    newchar = true;
+                    }
+                 SetHelpKeys();
+                 break;
+    case kYellow|k_Repeat:
+    case kYellow: // Remove the character at current position; in insert mode it is the character to the right of cursor
+                 if (pos >= 0) {
+                    if (strlen(value) > 1) {
+                       memmove(value + pos, value + pos + 1, strlen(value) - pos);
+                       // reduce position, if we removed the last character
+                       if (pos == int(strlen(value)))
+                          pos--;
+                       }
+                    else if (strlen(value) == 1)
+                       value[0] = ' '; // This is the last character in the string, replace it with a blank
+                    if (isalpha(value[pos]))
+                       uppercase = isupper(value[pos]);
+                    newchar = true;
+                    }
+                 break;
+    case kLeft|k_Repeat:
+    case kLeft:  if (pos > 0) {
+                    if (!insert || newchar)
+                       pos--;
+                    newchar = true;
+                    }
+                 if (!insert && isalpha(value[pos]))
+                    uppercase = isupper(value[pos]);
+                 break;
     case kRight|k_Repeat:
-    case kRight: if (pos < length && value[pos] != '^' && (pos < int(strlen(value) - 1) || value[pos] != ' ')) {
+    case kRight: if (pos < length && pos < int(strlen(value)) ) {
                     if (++pos >= int(strlen(value))) {
-                       value[pos] = ' ';
-                       value[pos + 1] = 0;
+                       if (pos >= 2 && value[pos - 1] == ' ' && value[pos - 2] == ' ')
+                          pos--; // allow only two blanks at the end
+                       else {
+                          value[pos] = ' ';
+                          value[pos + 1] = 0;
+                          }
                        }
                     }
+                 newchar = true;
+                 if (!insert && isalpha(value[pos]))
+                    uppercase = isupper(value[pos]);
+                 if (pos == 0)
+                    SetHelpKeys();
                  break;
     case kUp|k_Repeat:
     case kUp:
     case kDown|k_Repeat:
-    case kDown:  if (pos >= 0)
-                    value[pos] = Inc(value[pos], NORMALKEY(Key) == kUp);
+    case kDown:  if (pos >= 0) {
+                    if (insert && newchar) {
+                       // create a new character in insert mode
+                       if (int(strlen(value)) < length) {
+                          memmove(value + pos + 1, value + pos, strlen(value) - pos + 1);
+                          value[pos] = ' ';
+                          }
+                       }
+                    if (uppercase)
+                       value[pos] = toupper(Inc(tolower(value[pos]), NORMALKEY(Key) == kUp));
+                    else
+                       value[pos] =         Inc(        value[pos],  NORMALKEY(Key) == kUp);
+                    newchar = false;
+                    }
                  else
                     return cMenuEditItem::ProcessKey(Key);
                  break;
     case kOk:    if (pos >= 0) {
-                    if (value[pos] == '^')
-                       value[pos] = 0;
                     pos = -1;
+                    newchar = true;
                     stripspace(value);
+                    SetHelpKeys();
                     break;
                     }
                  // run into default
@@ -699,7 +796,7 @@ cMenuEditChannel::cMenuEditChannel(int Index)
   channel = Channels.Get(Index);
   if (channel) {
      data = *channel;
-     Add(new cMenuEditStrItem( tr("Name"),          data.name, sizeof(data.name), FileNameChars));
+     Add(new cMenuEditStrItem( tr("Name"),          data.name, sizeof(data.name), tr(FileNameChars)));
      Add(new cMenuEditIntItem( tr("Frequency"),    &data.frequency));
      Add(new cMenuEditChrItem( tr("Polarization"), &data.polarization, "hv"));
      Add(new cMenuEditIntItem( tr("DiSEqC"),       &data.diseqc, 0, 10)); //TODO exact limits???
@@ -1086,7 +1183,7 @@ cMenuEditTimer::cMenuEditTimer(int Index, bool New)
 //TODO VPS???
      Add(new cMenuEditIntItem( tr("Priority"),     &data.priority, 0, MAXPRIORITY));
      Add(new cMenuEditIntItem( tr("Lifetime"),     &data.lifetime, 0, MAXLIFETIME));
-     Add(new cMenuEditStrItem( tr("File"),          data.file, sizeof(data.file), FileNameChars));
+     Add(new cMenuEditStrItem( tr("File"),          data.file, sizeof(data.file), tr(FileNameChars)));
      SetFirstDayItem();
      }
 }
@@ -2104,7 +2201,7 @@ void cMenuSetupRecord::Set(void)
   Add(new cMenuEditIntItem( tr("Setup.Recording$Default lifetime (d)"),      &data.DefaultLifetime, 0, MAXLIFETIME));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Use episode name"),          &data.UseSubtitle));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Mark instant recording"),    &data.MarkInstantRecord));
-  Add(new cMenuEditStrItem( tr("Setup.Recording$Name instant recording"),     data.NameInstantRecord, sizeof(data.NameInstantRecord), FileNameChars));
+  Add(new cMenuEditStrItem( tr("Setup.Recording$Name instant recording"),     data.NameInstantRecord, sizeof(data.NameInstantRecord), tr(FileNameChars)));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Record Dolby Digital"),      &data.RecordDolbyDigital));
   Add(new cMenuEditIntItem( tr("Setup.Recording$Max. video file size (MB)"), &data.MaxVideoFileSize, MINVIDEOFILESIZE, MAXVIDEOFILESIZE));
   Add(new cMenuEditBoolItem(tr("Setup.Recording$Split edited files"),        &data.SplitEditedFiles));
@@ -3185,6 +3282,7 @@ void cReplayControl::TimeSearch(void)
      else
         return;
      }
+  timeoutShow = 0;
   TimeSearchDisplay();
   timeSearchActive = true;
 }
@@ -3287,7 +3385,7 @@ eOSState cReplayControl::ProcessKey(eKeys Key)
         }
      else if (modeOnly)
         ShowMode();
-     else 
+     else
         shown = ShowProgress(!shown) || shown;
      }
   bool DisplayedFrames = displayFrames;
