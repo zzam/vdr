@@ -360,6 +360,7 @@ Norbert Schmidt <nschmidt-nrw@t-online.de>
 Thilo Wunderlich <wunderlich@speedway.org>
  for his help in keeping 'channels.conf' up to date
  for reporting a problem with accessing the epg.data file before it is fully written
+ for updating satellite names in 'sources.conf'
 
 Stephan Schreiber <stephan@sschreiber.de>
  for his support in keeping the Premiere World channels up to date in 'channels.conf.cable'
@@ -1116,6 +1117,7 @@ Reinhard Nissl <rnissl@gmx.de>
  for fixing a possible crash in remux.c on 64-bit machines
  for making cCommand::Execute() use cPipe instead of popen() to avoid problems
  with open file handles when starting background commands
+ for fixing handling error status in cDvbTuner::GetFrontendStatus()
 
 Richard Robson <richard_robson@beeb.net>
  for reporting freezing replay if a timer starts while in Transfer Mode from the
@@ -1389,6 +1391,7 @@ Marco Schlüßler <marco@lordzodiac.de>
  replay has been stopped
  for reporting a problem with displaying the replay mode symbol in case of "Multi
  speed mode"
+ for removing 'assert(0)' from cDvbSpuDecoder::setTime()
 
 Jürgen Schmitz <j.schmitz@web.de>
  for reporting a bug in displaying the current channel when switching via the SVDRP
@@ -1694,6 +1697,7 @@ Henrik Niehaus <henrik.niehaus@gmx.de>
 Martin Wache <M.Wache@gmx.net>
  for adding a sleep in cDvbPlayer::Action() in case there is no data to send to the
  device, which avoids a busy loop on very fast machines
+ for fixing a possible crash when loading an invalid XPM file
 
 Matthias Lenk <matthias.lenk@amd.com>
  for reporting an out-of-bounds memory access with audio language ids
