@@ -1118,6 +1118,7 @@ Reinhard Nissl <rnissl@gmx.de>
  for making cCommand::Execute() use cPipe instead of popen() to avoid problems
  with open file handles when starting background commands
  for fixing handling error status in cDvbTuner::GetFrontendStatus()
+ for fixing a busy loop in fast forward if the next video data file is missing
 
 Richard Robson <richard_robson@beeb.net>
  for reporting freezing replay if a timer starts while in Transfer Mode from the
@@ -1392,6 +1393,7 @@ Marco Schlüßler <marco@lordzodiac.de>
  for reporting a problem with displaying the replay mode symbol in case of "Multi
  speed mode"
  for removing 'assert(0)' from cDvbSpuDecoder::setTime()
+ for fixing handling ChannelUp/Down keys if there is currently a replay running
 
 Jürgen Schmitz <j.schmitz@web.de>
  for reporting a bug in displaying the current channel when switching via the SVDRP
@@ -2006,6 +2008,7 @@ Anssi Hannula <anssi.hannula@gmail.com>
  for suggesting that cDevice::GetDevice() should prefer any device that's already
  receiving and doesn't require detatching receivers
  for improving handling Transfer Mode devices when selecting a device to receive
+ for fixing handling frequencies in NitFilter::Process()
 
 Antti Hartikainen <ami+vdr@ah.fi>
  for updating 'S13E' in 'sources.conf'
