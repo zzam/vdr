@@ -1053,6 +1053,7 @@ Rolf Ahrenberg <rahrenbe@cc.hut.fi>
  language
  for fixing displaying the free disk space when entering the recordings menu where
  the last replayed recording was in a subdirectory, and pressing Back
+ for replacing the Finnish language code "smi" with "suo"
 
 Ralf Klueber <ralf.klueber@vodafone.com>
  for reporting a bug in cutting a recording if there is only a single editing mark
@@ -1579,6 +1580,7 @@ Udo Richter <udo_richter@gmx.de>
  for making housekeeping wait for a while after a replay has ended
  for fixing error handling in cCuttingThread::Action()
  for suppressing the automatic shutdown if the remote control is currently disabled
+ for fixing a problem with calling isyslog() from within the SignalHandler()
 
 Sven Kreiensen <svenk@kammer.uni-hannover.de>
  for his help in keeping 'channels.conf.terr' up to date
@@ -1895,6 +1897,7 @@ Alexander Rieger <Alexander.Rieger@inka.de>
  for fixing cTimer::operator=() in case a cTimer variable is assigned to itself
  for making the list of tracks given in cStatus::SetAudioTrack() NULL terminated
  for fixing handling kLeft in the calls to cStatus::MsgOsdTextItem()
+ for fixing a possible integer overflow in GetAbsTime()
 
 Philip Prindeville <philipp_subx@redfish-solutions.com>
  for updates to 'sources.conf'
@@ -2116,6 +2119,7 @@ Tobias Grimm <tobias.grimm@e-tobi.net>
  for making the non-breaking space symbol be rendered as a blank
  for fixing a signed character used as index in cBase64Encoder::NextLine()
  for fixing formatting the name section in the VDR man pages
+ for reporting unneeded include files <linux/dvb/dmx.h> und <time.h> in remux.h
 
 Helge Lenz <h.lenz@gmx.de>
  for reporting a bug in setting the 'Delta' parameter when calling the shutdown
@@ -2352,3 +2356,10 @@ Adrian Caval <anrxc@sysphere.org>
 
 Nan Feng <nfgx@21cn.com>
  for translating OSD texts to the Chinese language
+
+Edgar Toernig <froese@gmx.de>
+ for suggesting to not call FcFini() to avoid problems with older (broken) versions
+ of fontconfig
+
+Winfried Köhler <w_koehl@gmx.de>
+ for fixing wrong value for TableIdBAT in libsi/si.h
