@@ -509,8 +509,8 @@ cRecording::cRecording(cTimer *Timer, const cEvent *Event)
      Utf8Strn0Cpy(SubtitleBuffer, Subtitle, MAX_SUBTITLE_LENGTH);
      Subtitle = SubtitleBuffer;
      }
-  char *macroTITLE   = strstr(Timer->File(), TIMERMACRO_TITLE);
-  char *macroEPISODE = strstr(Timer->File(), TIMERMACRO_EPISODE);
+  const char *macroTITLE   = strstr(Timer->File(), TIMERMACRO_TITLE);
+  const char *macroEPISODE = strstr(Timer->File(), TIMERMACRO_EPISODE);
   if (macroTITLE || macroEPISODE) {
      name = strdup(Timer->File());
      name = strreplace(name, TIMERMACRO_TITLE, Title);
@@ -551,7 +551,7 @@ cRecording::cRecording(const char *FileName)
   sortBuffer = NULL;
   fileName = strdup(FileName);
   FileName += strlen(VideoDirectory) + 1;
-  char *p = strrchr(FileName, '/');
+  const char *p = strrchr(FileName, '/');
 
   name = NULL;
   info = new cRecordingInfo;
@@ -1022,7 +1022,7 @@ void cRecordings::DelByName(const char *FileName)
   if (recording) {
      cThreadLock DeletedRecordingsLock(&DeletedRecordings);
      Del(recording, false);
-     char *ext = strrchr(recording->FileName(), '.');
+     char *ext = strrchr(recording->fileName, '.');
      if (ext) {
         strncpy(ext, DELEXT, strlen(ext));
         recording->fileSizeMB = DirSizeMB(recording->FileName());
