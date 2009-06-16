@@ -144,7 +144,7 @@ void cCaDescriptors::AddCaDescriptor(SI::CaDescriptor *d, bool Stream)
   q += sprintf(q, "CAM: %04X %5d %5d %04X %d -", source, transponder, serviceId, d->getCaType(), Stream);
   for (int i = 0; i < nca->Length(); i++)
       q += sprintf(q, " %02X", nca->Data()[i]);
-  dsyslog(buffer);
+  dsyslog("%s", buffer);
 #endif
 }
 

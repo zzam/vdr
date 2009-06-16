@@ -40,7 +40,7 @@ cReceiver::~cReceiver()
 {
   if (device) {
      const char *msg = "ERROR: cReceiver has not been detached yet! This is a design fault and VDR will segfault now!";
-     esyslog(msg);
+     esyslog("%s", msg);
      fprintf(stderr, "%s\n", msg);
      *(char *)0 = 0; // cause a segfault
      }

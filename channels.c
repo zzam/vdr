@@ -574,7 +574,7 @@ void cChannel::SetLinkChannels(cLinkChannels *LinkChannels)
      }
   else
      q += sprintf(q, " none");
-  dsyslog(buffer);
+  dsyslog("%s", buffer);
 }
 
 void cChannel::SetRefChannel(cChannel *RefChannel)
