@@ -15,7 +15,7 @@
 #include "device.h"
 #include "dvbspu.h"
 
-#if DVB_API_VERSION != 3
+#if (DVB_API_VERSION != 3) && (DVB_API_VERSION != 5)
 #error VDR requires Linux DVB driver API version 3!
 #endif
 
